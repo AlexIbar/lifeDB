@@ -1,0 +1,14 @@
+{
+  "name": "libreriaindex",
+  "version": "0.0.1",
+  "description": "\"Libreria para manejar mas comodamente la api indexedDB\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc index.ts -w"
+  },
+  "keywords": [
+    "indexedDB"
+  ],
+  "author": "AlexIbar",
+  "license": "MIT"
+}
