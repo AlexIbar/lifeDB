@@ -355,7 +355,7 @@ class LibDB{
                     almacen = transaction.objectStore(nombreCollections),
                     resultado = almacen.clear();
                 resultado.onsuccess = (e: any) => {
-                    resolve("Eliminado");
+                    console.log("Eliminado");
                 };
                 resultado.onerror = function(err){
                     reject(err)

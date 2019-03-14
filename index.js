@@ -353,7 +353,7 @@ var LibDB = /** @class */ (function () {
             _this_1.abrir().then(function (res) {
                 var transaction = res.transaction(nombreCollections), almacen = transaction.objectStore(nombreCollections), resultado = almacen.clear();
                 resultado.onsuccess = function (e) {
-                    resolve("Eliminado");
+                    console.log("Eliminado");
                 };
                 resultado.onerror = function (err) {
                     reject(err);
