@@ -330,11 +330,22 @@ class LibDB{
     }
     deleteAll(nameObject:string,recursos:entradaDelete){
         return new Promise((resolve,reject)=>{
-            for(let td of recursos.$dts){
-                this.delete(nameObject, {$dts:td})
-                .then(res=>console.log('eliminado')).catch(err=>resolve(err))
-            }
-            resolve('completado')
+            this.get(nameObject, {$dts:recursos.$dts, $devol:'key'}).then((Response:Array<any>)=>{
+                this.abrir().then((res:any)=>{
+                    let transaction = res.transaction(nameObject, 'readwrite'),
+                        almacen =transaction.objectStore(nameObject);
+                    for(let r of Response){
+                        let borrar = almacen.delete(r.key)
+                        borrar.onsuccess=()=>{
+                            console.log('completado')
+                        }
+                        borrar.onerror=function(err){
+                            reject(err)
+                        }
+                    }
+                    resolve('Completado')
+                })
+            })
         })
     }
     eliminarContent(nombreCollections: string) {

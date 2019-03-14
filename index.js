@@ -329,12 +329,22 @@ var LibDB = /** @class */ (function () {
     LibDB.prototype.deleteAll = function (nameObject, recursos) {
         var _this_1 = this;
         return new Promise(function (resolve, reject) {
-            for (var _i = 0, _a = recursos.$dts; _i < _a.length; _i++) {
-                var td = _a[_i];
-                _this_1["delete"](nameObject, { $dts: td })
-                    .then(function (res) { return console.log('eliminado'); })["catch"](function (err) { return resolve(err); });
-            }
-            resolve('completado');
+            _this_1.get(nameObject, { $dts: recursos.$dts, $devol: 'key' }).then(function (Response) {
+                _this_1.abrir().then(function (res) {
+                    var transaction = res.transaction(nameObject, 'readwrite'), almacen = transaction.objectStore(nameObject);
+                    for (var _i = 0, Response_1 = Response; _i < Response_1.length; _i++) {
+                        var r = Response_1[_i];
+                        var borrar = almacen["delete"](r.key);
+                        borrar.onsuccess = function () {
+                            console.log('completado');
+                        };
+                        borrar.onerror = function (err) {
+                            reject(err);
+                        };
+                    }
+                    resolve('Completado');
+                });
+            });
         });
     };
     LibDB.prototype.eliminarContent = function (nombreCollections) {
